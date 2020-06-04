@@ -12,7 +12,7 @@ double calcSquaredSum ( const std::vector<double> &vec );
 
 int main() 
 {
-    std::vector<std::string> filenames { "random.txt", "lorem.txt", /*"constant.txt"*/};
+    std::vector<std::string> filenames {"random.txt", "lorem.txt", "constant.txt"};
     for(int i = 0; i < filenames.size(); i++)
     {
         double rauheitsgrad { calcRauheitsgrad(filenames[i])};
@@ -28,13 +28,14 @@ double calcRauheitsgrad( std::string filename )
     double rauheitsgrad{0};
 
     //calculate the frequencies instead of abs values
-    double cardAlphabet { accumulate( characterOcc.begin(), characterOcc.end(), 0 ) };
+    double cardAlphNeu = 0;
+    double cardAlphabet { static_cast<double>(accumulate( characterOcc.begin(), characterOcc.end(), 0 )) };
     calcFrequencies( characterOcc, cardAlphabet );
 
     //calculate the sum of the squared frequencies
     rauheitsgrad = calcSquaredSum(characterOcc);
 
-    return rauheitsgrad - ( (double) 1 / cardAlphabet);
+    return rauheitsgrad - ( (double)1 / (double)128);
 }
 
 std::vector<double> countCharacters( const std::string &filename )
@@ -42,9 +43,8 @@ std::vector<double> countCharacters( const std::string &filename )
     std::ifstream input { filename };
     std::vector<double> ascii_count( 128 );
     char data{0};
-    while ( !input.eof() )
+    while ( input.get(data) )
     {
-        input  >> data;
         //increment the counter vector at the position of the read character value
         ascii_count[data] ++;
     }
@@ -54,13 +54,13 @@ std::vector<double> countCharacters( const std::string &filename )
 
 void calcFrequencies( std::vector<double> &vec, double allChars )
 {
-    for( double d : vec )
+    for( double &d : vec )
     {
         d = d / allChars;
     }
 }
 
-double calcSquaredSum ( const std::vector<double> &vec )
+double calcSquaredSum (const std::vector<double> &vec )
 {
     double sum{0};
     for ( double d : vec )
