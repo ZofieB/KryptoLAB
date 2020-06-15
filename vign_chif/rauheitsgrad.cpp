@@ -8,9 +8,10 @@ double calcRauheitsgrad( std::string filename );
 std::vector<double> countCharacters( const std::string &input );
 void calcFrequencies( std::vector<double> &vec, double allChars );
 double calcSquaredSum ( const std::vector<double> &vec );
+int maxElementsIndex(const std::vector<double> &v);
 
 
-int main() 
+/*int main() 
 {
     std::vector<std::string> filenames {"random.txt", "lorem.txt", "constant.txt"};
     for(int i = 0; i < filenames.size(); i++)
@@ -18,8 +19,14 @@ int main()
         double rauheitsgrad { calcRauheitsgrad(filenames[i])};
         std::cout << "The Rauheitsgrad of the file " << filenames[i] << " is: " << rauheitsgrad << '\n'; 
     }
+
+    std::vector<double> chars{countCharacters("lorem.txt")};
+
+    int maxChar{maxElementsIndex(chars)};
+
+    std::cout << "Most common character in Lorem Ipsum is: " << maxChar <<  " /  \"" << (char)maxChar << '\"' << '\n'; 
     return 0;
-}
+}*/
 
 double calcRauheitsgrad( std::string filename )
 {
@@ -28,7 +35,6 @@ double calcRauheitsgrad( std::string filename )
     double rauheitsgrad{0};
 
     //calculate the frequencies instead of abs values
-    double cardAlphNeu = 0;
     double cardAlphabet { static_cast<double>(accumulate( characterOcc.begin(), characterOcc.end(), 0 )) };
     calcFrequencies( characterOcc, cardAlphabet );
 
@@ -68,4 +74,20 @@ double calcSquaredSum (const std::vector<double> &vec )
         sum = sum + (d * d);
     }
     return sum;
+}
+
+int maxElementsIndex(const std::vector<double> &v)
+{
+    double maxElement{0};
+    int maxIndex{0};
+    for (int i = 0; i < v.size(); i++)
+    {
+        if(v[i] > maxElement)
+        {
+            maxElement = v[i];
+            maxIndex = i;
+        }
+    }
+
+    return maxIndex;
 }

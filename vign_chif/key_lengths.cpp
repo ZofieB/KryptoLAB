@@ -16,7 +16,7 @@ void testIC(int chunkLength);
 
 int maxElementsIndex(const std::vector<double> &v);
 
-int determineKeyLength(const std::string &filename, int maxLength);
+std::vector<int> determineKeyLength(const std::string &filename, int maxLength);
 
 std::vector<int> primes(int number);
 
@@ -26,9 +26,7 @@ int main()
     std::vector<std::string> filenames {"encypted-lorem-1-binary.txt", "encypted-lorem-2-binary.txt", "encypted-lorem-3-binary.txt", "encypted-lorem-4-binary.txt"};
     for (std::string s : filenames)
     {
-        int maxAverage{determineKeyLength(s, 100)};
-        std::cout << determineKeyLength(s, 100) << '\n';
-        std::vector<int> primeNumbers {primes(maxAverage)};
+        std::vector<int> primeNumbers {determineKeyLength(s, 100)};
 
         std::cout << "Possible blocklengths are (including multiples and factors of those): \n";
 
@@ -131,7 +129,7 @@ int maxElementsIndex(const std::vector<double> &v)
     return maxIndex;
 }
 
-int determineKeyLength(const std::string &filename, int maxLength)
+std::vector<int> determineKeyLength(const std::string &filename, int maxLength)
 {
     std::string inputText{readInput(filename)};
     std::vector<double> averageIC;
@@ -143,7 +141,9 @@ int determineKeyLength(const std::string &filename, int maxLength)
         averageIC.push_back( calcAverageIC(columnIC) );
     }
     //Indexing starts at 2, as the first entry in avergae IC is for keyLength 2
-    return maxElementsIndex(averageIC) + 1;
+    int maxIndex{ maxElementsIndex(averageIC) + 1 };
+    
+    return primes(maxIndex);
 }
 
 std::vector<int> primes(int number)
