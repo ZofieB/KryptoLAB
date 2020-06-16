@@ -5,7 +5,7 @@
 #include <numeric>
 
 double calcRauheitsgrad( std::string filename );
-std::vector<double> countCharacters( const std::string &input );
+std::vector<double> countInputCharacters( const std::string &input );
 void calcFrequencies( std::vector<double> &vec, double allChars );
 double calcSquaredSum ( const std::vector<double> &vec );
 int maxElementsIndex(const std::vector<double> &v);
@@ -31,7 +31,7 @@ int maxElementsIndex(const std::vector<double> &v);
 double calcRauheitsgrad( std::string filename )
 {
     //count the occurences of characters in the file
-    std::vector<double> characterOcc { countCharacters( filename ) };
+    std::vector<double> characterOcc { countInputCharacters( filename ) };
     double rauheitsgrad{0};
 
     //calculate the frequencies instead of abs values
@@ -44,7 +44,7 @@ double calcRauheitsgrad( std::string filename )
     return rauheitsgrad - ( (double)1 / (double)128);
 }
 
-std::vector<double> countCharacters( const std::string &filename )
+std::vector<double> countInputCharacters( const std::string &filename )
 {
     std::ifstream input { filename };
     std::vector<double> ascii_count( 128 );

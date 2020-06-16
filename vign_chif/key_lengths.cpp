@@ -20,7 +20,7 @@ std::vector<int> determineKeyLength(const std::string &filename, int maxLength);
 
 std::vector<int> primes(int number);
 
-
+//3 12 57 98
 int main()
 {
     std::vector<std::string> filenames {"encypted-lorem-1-binary.txt", "encypted-lorem-2-binary.txt", "encypted-lorem-3-binary.txt", "encypted-lorem-4-binary.txt"};
@@ -143,6 +143,8 @@ std::vector<int> determineKeyLength(const std::string &filename, int maxLength)
     //Indexing starts at 2, as the first entry in avergae IC is for keyLength 2
     int maxIndex{ maxElementsIndex(averageIC) + 1 };
     
+    std::cout << "Found key: " << maxIndex << '\n';
+
     return primes(maxIndex);
 }
 
