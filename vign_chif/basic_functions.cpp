@@ -42,11 +42,15 @@ std::vector<double> countCharacters(const std::string &s)
 std::string decrypt(const std::string &cryptotext, const std::string &key)
 {
     std::string plaintext;
-    for( int i = 0; i < cryptotext.size(); i+= key.size())
+    int cryptosize{cryptotext.size()};
+    for( int i = 0; i < cryptosize; i+= key.size())
     {
         for(int j = 0; j < key.size(); j++)
         {
-            plaintext.push_back( ( (cryptotext[i + j] - key[j]) + 128 ) % 128 );
+            if( i + j < cryptosize)
+            {
+                plaintext.push_back( ( (cryptotext[i + j] - key[j]) + 128 ) % 128 );
+            }
         }
     }
     return plaintext;
