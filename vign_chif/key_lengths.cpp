@@ -85,9 +85,6 @@ std::vector<int> determineKeyLength(const std::string &inputText, int maxLength)
     }
     //Indexing starts at 2, as the first entry in avergae IC is for keyLength 2
     int maxIndex{ maxElementsIndex(averageIC) + 1 };
-    
-    std::cout << "Found key: " << maxIndex << '\n';
-
     return primes(maxIndex);
 }
 

@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 {
     // first argument after the command is the name of the cryptotext file
     std::string cryptotext{readInput(argv[1])};
-    int maxKeylength;
+    int maxKeylength{0};
 
     if(argc == 2)
     {
@@ -23,15 +23,12 @@ int main(int argc, char **argv)
     }
     else if(argc == 3)
     {
-        //maxKeylength = argv[2]; TODO
+        maxKeylength = std::stoi(argv[2], nullptr, 10); 
     }
     else
     {
         std::cout << "Es wurde nicht die korrekte Anzahl an Argumenten eingegeben!\n";
     }
-    
-    
-    std::cout << maxKeylength << '\n';
 
     std::vector<int> possibleKeylengths{ determineKeyLength(cryptotext, maxKeylength) };
     
@@ -39,7 +36,6 @@ int main(int argc, char **argv)
     std::vector<int> finalKeyLengths;
     for (int i = 1; i <= possibleKeylengths.size() ; i++)
     {
-        std::cout << "Currently computing products of length " << i << '\n';
         combinations(finalKeyLengths, possibleKeylengths, 0, i);
     }
     //compute for every possible Keylength the key, decrypt the text and compare rauheitsgrad
@@ -64,7 +60,8 @@ int main(int argc, char **argv)
         }
     }
 
-    std::cout<< "Plaintext: \n" << plaintext << "\nUsed key: " << key << '\n';
+    std::cout<< "Plaintext: \n" << plaintext << std::endl;
+    std::cout << "Used key: " << key << '\n';
     return 0;
 }
 
@@ -80,7 +77,6 @@ void combinations(std::vector<int> &finalCombs, const std::vector<int> &numbers,
         if(std::find(finalCombs.begin(), finalCombs.end(), product) == finalCombs.end())
         {
             finalCombs.push_back(product);
-            std::cout << "Added Keylength " << product << " to the list.\n";
         }
         return;
     }
