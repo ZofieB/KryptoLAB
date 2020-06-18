@@ -1,14 +1,5 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <numeric>
-
-double calcRauheitsgrad( std::string filename );
-std::vector<double> countInputCharacters( const std::string &input );
-void calcFrequencies( std::vector<double> &vec, double allChars );
-double calcSquaredSum ( const std::vector<double> &vec );
-int maxElementsIndex(const std::vector<double> &v);
+#include "rauheitsgrad.h"
+#include "basic_functions.h"
 
 
 /*int main() 
@@ -28,10 +19,11 @@ int maxElementsIndex(const std::vector<double> &v);
     return 0;
 }*/
 
-double calcRauheitsgrad( std::string filename )
+double calcRauheitsgrad( const std::string &text )
 {
     //count the occurences of characters in the file
-    std::vector<double> characterOcc { countInputCharacters( filename ) };
+    //std::vector<double> characterOcc { countInputCharacters( filename ) };
+    std::vector<double> characterOcc { countCharacters(text) };
     double rauheitsgrad{0};
 
     //calculate the frequencies instead of abs values
@@ -74,20 +66,4 @@ double calcSquaredSum (const std::vector<double> &vec )
         sum = sum + (d * d);
     }
     return sum;
-}
-
-int maxElementsIndex(const std::vector<double> &v)
-{
-    double maxElement{0};
-    int maxIndex{0};
-    for (int i = 0; i < v.size(); i++)
-    {
-        if(v[i] > maxElement)
-        {
-            maxElement = v[i];
-            maxIndex = i;
-        }
-    }
-
-    return maxIndex;
 }

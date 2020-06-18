@@ -8,7 +8,9 @@
             "args": [
                 "-g",
                 "${file}",
-                //"${fileDirname}\\rauheitsgrad.cpp",
+                "${fileDirname}\\rauheitsgrad.cpp",
+                "${fileDirname}\\key_lengths.cpp",
+                "${fileDirname}\\calc_key_new.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

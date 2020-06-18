@@ -2,7 +2,7 @@
 #include <string>
 #include<math.h>
 
-#include "rauheitsgrad_header.h"
+#include "rauheitsgrad.h"
 
 //using double vectors for compatibility
 
@@ -20,11 +20,11 @@ std::string readInput(const std::string &filename);
 std::vector<double> countCharacters(const std::string &s);
 void testCountCharacters();
 
-int main()
+/*int main()
 {
     std::cout << "The key ist: " <<  determineKey( readInput("encypted-lorem-4-binary.txt"), 98) << '\n';
     return 0;
-}
+}*/
 
 std::string getColumn(int columnNumber, int keyLength, const std::string &cryptotext)
 {
@@ -45,7 +45,7 @@ std::string decrypt(const std::string &cryptotext, int key)
     std::string decrypted;
     for (char s : cryptotext)
     {
-        decrypted.push_back( (s + key) % 128 );
+        decrypted.push_back( ((s - key) + 128 )% 128 );
     }
     return decrypted;
 }

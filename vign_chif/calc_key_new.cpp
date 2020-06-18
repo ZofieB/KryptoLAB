@@ -1,30 +1,12 @@
-#include <vector>
-#include <string>
-#include "rauheitsgrad_header.h"
+#include "calc_key.h"
+#include "basic_functions.h"
 
-std::string readInput(const std::string &filename);
-std::string determineKey(const std::string &cryptotext, int keylength);
-int determineColumnKey(const std::string &column);
-std::string getColumn(int columnNumber, int keyLength, const std::string &cryptotext);
-std::vector<double> countCharacters(const std::string &s);
-
-int main()
+/*int main()
 {
     std::cout << "The key ist: " <<  determineKey( readInput("encypted-lorem-4-binary.txt"), 98) << '\n';
     return 0;
-}
-std::string readInput(const std::string &filename)
-{
-    //create a String containing the whole text
-    std::ifstream input { filename , std::ios_base::in | std::ios_base::binary };
-    char data;
-    std::string inputText;
-    while ( input.get(data) )
-    {
-        inputText.push_back(data);
-    }
-    return inputText;
-}
+}*/
+
 std::string determineKey(const std::string &cryptotext, int keylength)
 {
     std::string key;
@@ -69,13 +51,4 @@ std::string getColumn(int columnNumber, int keyLength, const std::string &crypto
     }
     
     return columnOutput;
-}
-std::vector<double> countCharacters(const std::string &s)
-{
-    std::vector<double> charCount(128);
-    for(char c : s)
-    {
-        charCount[c]++;
-    }
-    return charCount;
 }

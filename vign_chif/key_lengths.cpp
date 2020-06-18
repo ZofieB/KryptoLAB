@@ -1,32 +1,12 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <numeric>
+#include "basic_functions.h"
+#include "key_lengths.h"
 
-std::string readInput(const std::string &filename);
-void testReadInput(const std::string &filename);
-
-std::vector<double> calcICForColumns(int keyLength, const std::string &inputText);
-
-double calcAverageIC(const std::vector<double> &columnIC);
-
-double calcIC(const std::vector<double> &counter, int chunkLength);
-void testIC(int chunkLength);
-
-int maxElementsIndex(const std::vector<double> &v);
-
-std::vector<int> determineKeyLength(const std::string &filename, int maxLength);
-
-std::vector<int> primes(int number);
-
-//3 12 57 98
-int main()
+/*int main()
 {
     std::vector<std::string> filenames {"encypted-lorem-1-binary.txt", "encypted-lorem-2-binary.txt", "encypted-lorem-3-binary.txt", "encypted-lorem-4-binary.txt"};
     for (std::string s : filenames)
     {
-        std::vector<int> primeNumbers {determineKeyLength(s, 100)};
+        std::vector<int> primeNumbers {determineKeyLength(readInput(s), 100)};
 
         std::cout << "Possible blocklengths are (including multiples and factors of those): \n";
 
@@ -38,26 +18,7 @@ int main()
 
     //testReadInput("encypted-lorem-2-binary.txt");
     return 0;
-}
-
-std::string readInput(const std::string &filename)
-{
-    //create a String containing the whole text
-    std::ifstream input { filename , std::ios_base::in | std::ios_base::binary };
-    char data;
-    std::string inputText;
-    while ( input.get(data) )
-    {
-        inputText.push_back(data);
-    }
-    return inputText;
-}
-void testReadInput(const std::string &filename)
-{
-    std::string inputText{readInput(filename)};
-    int stringSize{ (int) inputText.size()};
-    std::cout << inputText;
-}
+}*/
 
 std::vector<double> calcICForColumns(int keyLength, const std::string &inputText)
 {
@@ -113,27 +74,9 @@ void testIC(int chunkLength)
     std::cout << calcIC(testVector, chunkLength) << '\n';
 }
 
-int maxElementsIndex(const std::vector<double> &v)
+std::vector<int> determineKeyLength(const std::string &inputText, int maxLength)
 {
-    double maxElement{0};
-    int maxIndex{0};
-    for (int i = 0; i < v.size(); i++)
-    {
-        if(v[i] > maxElement)
-        {
-            maxElement = v[i];
-            maxIndex = i;
-        }
-    }
-
-    return maxIndex;
-}
-
-std::vector<int> determineKeyLength(const std::string &filename, int maxLength)
-{
-    std::string inputText{readInput(filename)};
     std::vector<double> averageIC;
-
 //start with i = 2 to prevent dividing by 0
     for( int i = 1; i < maxLength; i++)
     {
