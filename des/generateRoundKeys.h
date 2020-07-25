@@ -7,6 +7,8 @@
 using namespace std;
 
 void testPermuteKey();
+void testShiftLeftCarry();
+void testInputandCut();
 vector<int> cutInputToArray(string &input, const string &delimiter);
 string readInput(const string &filename);
 unsigned long long int permuteKey(unsigned long long int key, vector<int> permutationTable);

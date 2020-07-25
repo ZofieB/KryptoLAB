@@ -8,6 +8,7 @@
             "args": [
                 "-g",
                 "${file}",
+                "${fileDirname}\\basic_functions.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

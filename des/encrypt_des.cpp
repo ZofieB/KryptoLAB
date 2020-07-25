@@ -1,9 +1,40 @@
 #include "encrypt_des.h"
 #include "generateRoundKeys.h"
+#include "basic_functions.h"
 
 int main()
 {
     testMakeInputBlocks();
+    testGetBytes();
+}
+
+string encryptDES(string &inputfile, unsigned long long int key, vector<int> sBoxVector, vector<int> permutationTable)
+{
+    vector<unsigned long long int> roundKeys(generateRoundKeys(key, 16, permutationTable));
+    vector<string> inputBlocks{makeInputBlocks(readInput(inputfile))};
+    string output{""};
+    for(string s: inputBlocks)
+    {
+        output.append(encryptDESBlock(s, roundKeys, sBoxVector));
+    }
+    return output;
+}
+
+string encryptDESBlock(string &input, vector<unsigned long long int> roundKeys, vector<int> sBoxVector)
+{
+    //create the splitted substrings
+    string right{input.substr(8, 8)};
+    string left{input.substr(0, 8)};
+    //do the encryption rounds
+    //round number is determined by the number of keys, which can be altered
+    vector<string> substrings;
+    substrings.push_back(left);
+    substrings.push_back(right);
+    for(int i = 0; i < roundKeys.size(); i++)
+    {
+        substrings = encryptRound(substrings[1], substrings[0], roundKeys[i], sBoxVector);
+    }
+    return substrings[0].append(substrings[1]);
 }
 
 vector<string> makeInputBlocks(string &input)
@@ -33,18 +64,6 @@ void testMakeInputBlocks()
     }
 }
 
-unsigned long long int getBits(string &s, int offset)
-{
-    unsigned long long int bits{0};
-    //if offset is 0, the left 64 bits are created, with offset=8 the last 64 bits are created
-    for(int i = offset; i < s.size() - (8 - offset); i++)
-    {
-        bits = bits << 8;
-        bits = bits | s[i];
-    }
-    return bits;
-}
-
 void paddWithZeros(string &s, int length)
 {
     for(int i = (int) s.size(); i < length; i++)
@@ -53,21 +72,31 @@ void paddWithZeros(string &s, int length)
     }
 }
 
-void encryptRound(unsigned long long int right, unsigned long long int left)
+vector<string> encryptRound(string right, string left, unsigned long long int key, vector<int> sBoxVector)
 {
-
+    //vector[0] is left value and vector[1] ist right value
+    vector<string> newValues(2);
+    //old right values becomes new left value
+    newValues[0] = right;
+    right = functionF(right, key, sBoxVector);
+    newValues[1] = bytewiseXOR(right, left);
+    return newValues;
 }
 
-unsigned long long int functionF(unsigned long long int right, unsigned long long int key)
+string functionF(string right, unsigned long long int key, vector<int> sBoxVector)
 {
-    unsigned long long int modifiedRight{0};
-    modifiedRight = right ^ key;
+    string byteKey{getBytes(key)};
 
+    string modifiedRight(bytewiseXOR(right, byteKey));
+    modifiedRight = sBox(modifiedRight, sBoxVector);
+    return modifiedRight;
 }
 
-unsigned long long int sBox(unsigned long long int input, vector<int> sBox)
+string sBox(string input, vector<int> sBoxVector)
 {
-    unsigned int mask{0xff};
-    //TODO: Behandlung der Bitfolge in 8 bit chunks --> byte array? 
-
+    for(int i = 0; i < input.size(); i++)
+    {
+        input[i] = sBoxVector[input[i]];
+    }
+    return input;
 }

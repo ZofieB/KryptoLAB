@@ -23,6 +23,7 @@ int main(int argc, char **argv)
         cout << hex << "Hex\t:  " << roundKeys[i] << '\n';
         cout << dec << "Binary\t:  " << bitset<64>(roundKeys[i]) << '\n';
     }
+
     return 0;
 }
 
@@ -40,13 +41,10 @@ unsigned long long int permuteKey(unsigned long long int key, vector<int> permut
 
     return permutation;
 }
+
 unsigned long long int getLowerBits(unsigned long long int source, int number)
 {
-    int bitmask = 1;
-    for(int i = 0; i < number - 1; i++)
-    {
-        bitmask = (bitmask << 1) | 1;
-    }
+    unsigned long long int bitmask{createBitmask(number)};
     return source & bitmask;
 }
 
@@ -58,6 +56,7 @@ unsigned long long int getHigherBits(unsigned long long int source, int number, 
 unsigned long long int shiftLeftCarry(unsigned long long int source, int number, int bitsize)
 {
     unsigned long long int shifted{ source << number };
+    shifted = getLowerBits(shifted, 32);
     unsigned long long int carry{ source >> (bitsize - number)};
 
     return shifted | carry;
@@ -91,9 +90,21 @@ void testPermuteKey()
 {
     vector<int> permutationTable{3, 6, 0, 2, 4, 1, 7, 5};
     unsigned long long int key = 154;
-    // key : 10011010       128 + 16 + 8 + 2 = 154
+    // key : 1001 1010       128 + 16 + 8 + 2 = 154
     // permutation: 1110 1000
     // permutation from behind: 10001110
     unsigned long long int permutation{permuteKey(key, permutationTable, 8)};
     cout << bitset<8>(key) << " is permutet to " << bitset<8>(permutation);
+}
+
+void testShiftLeftCarry()
+{
+    unsigned long long int source{0b0101011000111110101110111001110101000101011100000010101111100011};
+    unsigned long long int source2{0b1000010111011100011010001100101011100101010011110111011101110100};
+    cout << "s1 bits: " << bitset<64>(source) << endl;
+    cout << "s2 bits: " <<bitset<64>(source2) << endl;
+    int number{2};
+    int bitsize{64};
+    cout << "s1 shifted: " << bitset<64>(shiftLeftCarry(source, number, bitsize)) << endl;
+    cout << "s2 shifted: " << bitset<64>(shiftLeftCarry(source2, number, bitsize)) << endl;
 }
