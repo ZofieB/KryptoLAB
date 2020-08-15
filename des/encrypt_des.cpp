@@ -2,16 +2,23 @@
 #include "generateRoundKeys.h"
 #include "basic_functions.h"
 
-int main()
+//input arguments shuld be: encrypt/decrypt flag, key, sourcefile, destfile
+
+int main(int argc, char *argv[])
 {
     testMakeInputBlocks();
     testGetBytes();
 }
 
-string encryptDES(string &inputfile, unsigned long long int key, vector<int> sBoxVector, vector<int> permutationTable)
+string doDES(string &inputfile, unsigned long long int key, vector<int> sBoxVector, vector<int> permutationTable, bool decrypt)
 {
+    string input{readInput(inputfile)};
     vector<unsigned long long int> roundKeys(generateRoundKeys(key, 16, permutationTable));
-    vector<string> inputBlocks{makeInputBlocks(readInput(inputfile))};
+    if(decrypt)
+    {
+        reverse(roundKeys.begin(), roundKeys.end());
+    }
+    vector<string> inputBlocks{makeInputBlocks(input)};
     string output{""};
     for(string s: inputBlocks)
     {

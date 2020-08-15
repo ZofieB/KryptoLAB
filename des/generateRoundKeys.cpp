@@ -2,7 +2,7 @@
 #include "basic_functions.h"
 
 //permutation table specifies for each position of the result the position of the input it is taken from
-
+/*
 int main(int argc, char **argv)
 {
     unsigned long long int key{0};
@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
+*/
 unsigned long long int permuteKey(unsigned long long int key, vector<int> permutationTable, int bitsize)
 {
     unsigned long long int permutation = 0;
@@ -46,11 +46,6 @@ unsigned long long int getLowerBits(unsigned long long int source, int number)
 {
     unsigned long long int bitmask{createBitmask(number)};
     return source & bitmask;
-}
-
-unsigned long long int getHigherBits(unsigned long long int source, int number, int bitsize)
-{
-    return source  >> (bitsize - number);
 }
 
 unsigned long long int shiftLeftCarry(unsigned long long int source, int number, int bitsize)
