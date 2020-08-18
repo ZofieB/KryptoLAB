@@ -25,7 +25,7 @@ string doDES(string &inputfile, unsigned long long int key, vector<int> sBoxVect
     for(string s: inputBlocks)
     {
         output.append(encryptDESBlock(s, roundKeys, sBoxVector));
-        output.append("\n\n");
+        //output.append("\t");
     }
     return output;
 }
@@ -119,11 +119,23 @@ void testDES()
     vector<int> permutationArray{cutInputToArray(permutationString, ", ")};
     string filename{"testfile.txt"};
     string desout{doDES( filename, 0x03fd5c897bc599bc, sBoxVector, permutationArray, false)};
-    cout << desout << endl;
+    //cout << desout << endl;
+    printStringAsHex(desout);
     ofstream newfile;
     newfile.open("encrypt.txt");
     newfile << desout;
-    newfile.close();/*
-    filename = "encrypt.txt";
-    cout << doDES( filename, 0x03fd5c897bc599bc, sBoxVector, permutationArray, true);*/
+    newfile.close();
+    //filename = "encrypt.txt";
+    //cout << doDES( filename, 0x03fd5c897bc599bc, sBoxVector, permutationArray, true);
 }
+
+/*
+
+4 gleich
+4 anders
+4 gleich
+4 anders
+usw
+
+
+*/

@@ -96,3 +96,18 @@ string bytewiseXOR(const string &a, const string &b)
     return "0"; 
 }
 
+void printStringAsHex(const string &input)
+{
+    string newString{string_to_hex(input)};
+    cout << newString;   
+}
+string string_to_hex(const string& in) 
+{
+    stringstream ss;
+
+    ss << hex << setfill('0');
+    for (size_t i = 0; in.length() > i; ++i) {
+        ss << setw(2) << static_cast<unsigned int>(static_cast<unsigned char>(in[i]));
+    }
+    return ss.str(); 
+}
