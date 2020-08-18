@@ -19,7 +19,7 @@ vector<int> cutInputToArray(string &input, const string &delimiter)
 string readInput(const string &filename)
 {
     //create a String containing the whole text
-    ifstream input { filename };
+    ifstream input { filename, std::ios_base::in | std::ios_base::binary };
     char data;
     string inputText;
     while ( input.get(data) )

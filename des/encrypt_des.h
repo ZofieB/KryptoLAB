@@ -15,3 +15,4 @@ string encryptDESBlock(string &input, vector<unsigned long long int> roundKeys, 
 vector<string> encryptRound(string right, string left, unsigned long long int key, vector<int> sBoxVector);
 string functionF(string right, unsigned long long int key, vector<int> sBoxVector);
 string sBox(string input, vector<int> sBoxVector);
+void testDES();

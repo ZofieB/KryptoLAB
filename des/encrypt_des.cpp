@@ -4,10 +4,12 @@
 
 //input arguments shuld be: encrypt/decrypt flag, key, sourcefile, destfile
 
+//encryption is not deterministic
+//first character seems to stay the same, last block stays the same (padded?)
+
 int main(int argc, char *argv[])
 {
-    testMakeInputBlocks();
-    testGetBytes();
+    testDES();
 }
 
 string doDES(string &inputfile, unsigned long long int key, vector<int> sBoxVector, vector<int> permutationTable, bool decrypt)
@@ -23,6 +25,7 @@ string doDES(string &inputfile, unsigned long long int key, vector<int> sBoxVect
     for(string s: inputBlocks)
     {
         output.append(encryptDESBlock(s, roundKeys, sBoxVector));
+        output.append("\n\n");
     }
     return output;
 }
@@ -106,4 +109,21 @@ string sBox(string input, vector<int> sBoxVector)
         input[i] = sBoxVector[input[i]];
     }
     return input;
+}
+
+void testDES()
+{
+    string sBoxString{readInput("sbox.txt")};
+    vector<int> sBoxVector{cutInputToArray(sBoxString, ",")};
+    string permutationString{readInput("permutation.txt")};
+    vector<int> permutationArray{cutInputToArray(permutationString, ", ")};
+    string filename{"testfile.txt"};
+    string desout{doDES( filename, 0x03fd5c897bc599bc, sBoxVector, permutationArray, false)};
+    cout << desout << endl;
+    ofstream newfile;
+    newfile.open("encrypt.txt");
+    newfile << desout;
+    newfile.close();/*
+    filename = "encrypt.txt";
+    cout << doDES( filename, 0x03fd5c897bc599bc, sBoxVector, permutationArray, true);*/
 }
